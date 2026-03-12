@@ -1,0 +1,879 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Formulario — BlackDz Community</title>
+<link href="https://fonts.googleapis.com/css2?family=Rajdhani:wght@400;500;600;700&family=Exo+2:wght@300;400;500;700;900&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #060810;
+    --bg2: #0c0f1a;
+    --bg3: #111525;
+    --border: #1e2540;
+    --border2: #2a3160;
+    --accent: #e82020;
+    --accent2: #f54242;
+    --accent-glow: rgba(232, 32, 32, 0.25);
+    --red: #e03040;
+    --text: #c8d0e8;
+    --text-dim: #6070a0;
+    --text-bright: #eef2ff;
+    --card: rgba(12,15,26,0.95);
+    --gold-grad: linear-gradient(135deg, #e82020, #f54242, #e82020);
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'Exo 2', sans-serif;
+    min-height: 100vh;
+    overflow-x: hidden;
+  }
+
+  /* Background grid */
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background-image:
+      linear-gradient(rgba(30,37,64,0.4) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(30,37,64,0.4) 1px, transparent 1px);
+    background-size: 60px 60px;
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  body::after {
+    content: '';
+    position: fixed;
+    top: -50%;
+    left: -50%;
+    width: 200%;
+    height: 200%;
+    background: radial-gradient(ellipse at 30% 20%, rgba(232,160,32,0.05) 0%, transparent 50%),
+                radial-gradient(ellipse at 70% 80%, rgba(30,50,180,0.08) 0%, transparent 50%);
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  .container {
+    max-width: 780px;
+    margin: 0 auto;
+    padding: 40px 20px 80px;
+    position: relative;
+    z-index: 1;
+  }
+
+  /* ── HEADER ── */
+  .header {
+    text-align: center;
+    margin-bottom: 50px;
+    position: relative;
+  }
+
+  .header-badge {
+    display: inline-block;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    color: var(--accent);
+    background: rgba(232,160,32,0.08);
+    border: 1px solid rgba(232, 32, 32, 0.3);
+    padding: 6px 18px;
+    margin-bottom: 20px;
+    clip-path: polygon(8px 0%, calc(100% - 8px) 0%, 100% 8px, 100% calc(100% - 8px), calc(100% - 8px) 100%, 8px 100%, 0% calc(100% - 8px), 0% 8px);
+  }
+
+  .header h1 {
+    font-family: 'Rajdhani', sans-serif;
+    font-size: clamp(36px, 8vw, 64px);
+    font-weight: 700;
+    line-height: 0.95;
+    letter-spacing: -1px;
+    text-transform: uppercase;
+    margin-bottom: 8px;
+  }
+
+  .header h1 .black {
+    color: var(--text-bright);
+  }
+
+  .header h1 .dz {
+    background: var(--gold-grad);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    filter: drop-shadow(0 0 20px rgba(232, 32, 32, 0.5));
+  }
+
+  .header .subtitle {
+    font-size: 13px;
+    font-weight: 300;
+    color: var(--text-dim);
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    margin-top: 12px;
+  }
+
+  .header-line {
+    width: 100%;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, var(--accent), transparent);
+    margin-top: 30px;
+    opacity: 0.5;
+  }
+
+  .header-desc {
+    margin-top: 24px;
+    font-size: 14px;
+    color: var(--text-dim);
+    line-height: 1.7;
+    max-width: 560px;
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  .header-desc strong {
+    color: var(--accent);
+    font-weight: 600;
+  }
+
+  /* ── FORM CARD ── */
+  .form-card {
+    background: var(--card);
+    border: 1px solid var(--border);
+    position: relative;
+    overflow: hidden;
+    margin-bottom: 16px;
+    animation: slideUp 0.5s ease both;
+  }
+
+  .form-card::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 2px;
+    background: var(--gold-grad);
+    opacity: 0;
+    transition: opacity 0.3s;
+  }
+
+  .form-card:focus-within::before {
+    opacity: 1;
+  }
+
+  .form-card-inner {
+    padding: 28px 32px;
+  }
+
+  @keyframes slideUp {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  .form-card:nth-child(1) { animation-delay: 0.05s; }
+  .form-card:nth-child(2) { animation-delay: 0.1s; }
+  .form-card:nth-child(3) { animation-delay: 0.15s; }
+  .form-card:nth-child(4) { animation-delay: 0.2s; }
+  .form-card:nth-child(5) { animation-delay: 0.25s; }
+  .form-card:nth-child(6) { animation-delay: 0.3s; }
+
+  /* ── LABELS ── */
+  .field-label {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-family: 'Rajdhani', sans-serif;
+    font-size: 18px;
+    font-weight: 600;
+    color: var(--text-bright);
+    letter-spacing: 0.5px;
+    margin-bottom: 16px;
+  }
+
+  .field-label .required {
+    color: var(--red);
+    font-size: 14px;
+  }
+
+  .field-label .icon {
+    color: var(--accent);
+    font-size: 16px;
+  }
+
+  /* ── INPUTS ── */
+  .field-input {
+    width: 100%;
+    background: rgba(6,8,16,0.8);
+    border: 1px solid var(--border2);
+    color: var(--text-bright);
+    font-family: 'Exo 2', sans-serif;
+    font-size: 15px;
+    padding: 13px 18px;
+    outline: none;
+    transition: all 0.2s;
+    clip-path: polygon(0 0, calc(100% - 12px) 0, 100% 12px, 100% 100%, 12px 100%, 0 calc(100% - 12px));
+  }
+
+  .field-input::placeholder { color: var(--text-dim); font-size: 14px; }
+
+  .field-input:focus {
+    border-color: var(--accent);
+    background: rgba(232,160,32,0.04);
+    box-shadow: 0 0 0 1px rgba(232, 32, 32, 0.2), 0 4px 20px rgba(232, 32, 32, 0.08);
+  }
+
+  .field-input.error {
+    border-color: var(--red);
+  }
+
+  .error-msg {
+    font-size: 12px;
+    color: var(--red);
+    margin-top: 8px;
+    font-family: 'JetBrains Mono', monospace;
+    display: none;
+  }
+
+  .error-msg.show { display: block; }
+
+  /* ── RADIO ── */
+  .radio-group {
+    display: flex;
+    gap: 12px;
+  }
+
+  .radio-option {
+    flex: 1;
+    cursor: pointer;
+  }
+
+  .radio-option input {
+    display: none;
+  }
+
+  .radio-label {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    padding: 14px;
+    border: 1px solid var(--border2);
+    background: rgba(6,8,16,0.8);
+    font-family: 'Rajdhani', sans-serif;
+    font-size: 17px;
+    font-weight: 600;
+    color: var(--text-dim);
+    transition: all 0.2s;
+    cursor: pointer;
+    clip-path: polygon(0 0, calc(100% - 10px) 0, 100% 10px, 100% 100%, 10px 100%, 0 calc(100% - 10px));
+  }
+
+  .radio-option input:checked + .radio-label {
+    border-color: var(--accent);
+    color: var(--accent);
+    background: rgba(232, 32, 32, 0.08);
+  }
+
+  .radio-label:hover {
+    border-color: var(--accent);
+    color: var(--text-bright);
+  }
+
+  /* ── CHECKBOXES ── */
+  .checkbox-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 10px;
+  }
+
+  @media (max-width: 500px) {
+    .checkbox-grid { grid-template-columns: 1fr; }
+  }
+
+  .checkbox-option {
+    cursor: pointer;
+  }
+
+  .checkbox-option input {
+    display: none;
+  }
+
+  .checkbox-label {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 12px 16px;
+    border: 1px solid var(--border);
+    background: rgba(6,8,16,0.6);
+    font-size: 14px;
+    color: var(--text-dim);
+    transition: all 0.2s;
+    cursor: pointer;
+    clip-path: polygon(0 0, calc(100% - 8px) 0, 100% 8px, 100% 100%, 8px 100%, 0 calc(100% - 8px));
+  }
+
+  .checkbox-box {
+    width: 18px;
+    height: 18px;
+    border: 1px solid var(--border2);
+    flex-shrink: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.2s;
+    font-size: 11px;
+  }
+
+  .checkbox-option input:checked + .checkbox-label {
+    border-color: var(--accent);
+    color: var(--text-bright);
+    background: rgba(232,160,32,0.06);
+  }
+
+  .checkbox-option input:checked + .checkbox-label .checkbox-box {
+    background: var(--accent);
+    border-color: var(--accent);
+    color: #000;
+  }
+
+  .checkbox-label:hover {
+    border-color: var(--border2);
+    color: var(--text-bright);
+  }
+
+  /* ── ROLE CHIP ── */
+  .role-chip {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px;
+    color: var(--accent);
+    background: rgba(232, 32, 32, 0.1);
+    border: 1px solid rgba(232, 32, 32, 0.2);
+    padding: 2px 8px;
+    margin-left: 8px;
+    vertical-align: middle;
+  }
+
+  /* ── SUBMIT ── */
+  .submit-area {
+    display: flex;
+    justify-content: flex-end;
+    gap: 12px;
+    padding: 32px 0 0;
+  }
+
+  .btn-reset {
+    font-family: 'Rajdhani', sans-serif;
+    font-size: 15px;
+    font-weight: 600;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    padding: 14px 28px;
+    background: transparent;
+    border: 1px solid var(--border2);
+    color: var(--text-dim);
+    cursor: pointer;
+    transition: all 0.2s;
+    clip-path: polygon(0 0, calc(100% - 10px) 0, 100% 10px, 100% 100%, 10px 100%, 0 calc(100% - 10px));
+  }
+
+  .btn-reset:hover {
+    border-color: var(--text-dim);
+    color: var(--text);
+  }
+
+  .btn-submit {
+    font-family: 'Rajdhani', sans-serif;
+    font-size: 16px;
+    font-weight: 700;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    padding: 14px 40px;
+    background: var(--gold-grad);
+    border: none;
+    color: #060810;
+    cursor: pointer;
+    transition: all 0.2s;
+    clip-path: polygon(0 0, calc(100% - 12px) 0, 100% 12px, 100% 100%, 12px 100%, 0 calc(100% - 12px));
+    position: relative;
+    overflow: hidden;
+  }
+
+  .btn-submit::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: rgba(255,255,255,0);
+    transition: 0.2s;
+  }
+
+  .btn-submit:hover::after { background: rgba(255,255,255,0.15); }
+  .btn-submit:active { transform: scale(0.98); }
+
+  .btn-submit:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+  }
+
+  /* ── TOAST ── */
+  .toast {
+    position: fixed;
+    bottom: 30px;
+    right: 30px;
+    z-index: 9999;
+    min-width: 320px;
+    padding: 18px 24px;
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    font-family: 'Exo 2', sans-serif;
+    font-size: 14px;
+    transform: translateX(400px);
+    transition: transform 0.4s cubic-bezier(0.16,1,0.3,1);
+    clip-path: polygon(0 0, calc(100% - 12px) 0, 100% 12px, 100% 100%, 12px 100%, 0 calc(100% - 12px));
+  }
+
+  .toast.show { transform: translateX(0); }
+
+  .toast.success {
+    background: #0a1a10;
+    border: 1px solid #20a040;
+    color: #60e880;
+  }
+
+  .toast.error {
+    background: #1a0a0c;
+    border: 1px solid var(--red);
+    color: #f06070;
+  }
+
+  .toast-icon { font-size: 20px; }
+
+  .section-divider {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin: 6px 0 16px;
+  }
+
+  .section-divider span {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    color: var(--accent);
+    white-space: nowrap;
+  }
+
+  .section-divider::before,
+  .section-divider::after {
+    content: '';
+    flex: 1;
+    height: 1px;
+    background: var(--border);
+  }
+
+  /* Step counter */
+  .step-counter {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    color: var(--text-dim);
+    margin-bottom: 30px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+
+  .step-dot {
+    width: 6px; height: 6px;
+    background: var(--border2);
+    display: inline-block;
+  }
+
+  .step-dot.active { background: var(--accent); }
+
+  /* Loading spinner */
+  .spinner {
+    display: inline-block;
+    width: 16px;
+    height: 16px;
+    border: 2px solid rgba(0,0,0,0.3);
+    border-top-color: #000;
+    border-radius: 50%;
+    animation: spin 0.7s linear infinite;
+    vertical-align: middle;
+    margin-right: 8px;
+  }
+
+  @keyframes spin { to { transform: rotate(360deg); } }
+
+  /* ── DECORATION ── */
+  .corner-deco {
+    position: absolute;
+    top: 16px;
+    right: 16px;
+    width: 24px;
+    height: 24px;
+    border-top: 2px solid var(--accent);
+    border-right: 2px solid var(--accent);
+    opacity: 0.4;
+  }
+
+  /* Required note */
+  .required-note {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    color: var(--text-dim);
+    margin-bottom: 24px;
+  }
+
+  .required-note span { color: var(--red); }
+</style>
+</head>
+<body>
+
+<div class="container">
+
+  <!-- HEADER -->
+  <div class="header">
+    <div class="header-badge">◆ Recrutamento Oficial ◆</div>
+    <h1>
+      <span class="black">Black</span><span class="dz">Dz</span><br>
+      <span style="font-size:0.55em; letter-spacing:4px; color: var(--text-dim); font-weight:400;"><strong>Community</strong></span>
+    </h1>
+    <p class="subtitle">Formulário de Candidatura á staff</p>
+    <div class="header-line"></div>
+    <p class="header-desc">
+      Preencha com atenção. <strong>BlackDz</strong> irá analisar sua candidatura pessoalmente.<br>
+      Ao entrar na staff, você aceita trabalhar conosco e nos ajudar.             
+        </p>
+      <strong>A RESPOSTA DO SEU FORMULARIO VAI CHEGAR NA SUA DM DO DISCORD.</strong>
+    </p>
+  </div>
+
+  <!-- FORM -->
+  <form id="staffForm" novalidate>
+
+    <div class="required-note"><span>*</span> Campos obrigatórios</div>
+
+    <!-- Discord -->
+    <div class="form-card">
+      <div class="corner-deco"></div>
+      <div class="form-card-inner">
+        <label class="field-label" for="discord">
+          <span class="icon">⬡</span>
+          Nome de usuário do Discord
+          <span class="required">*</span>
+        </label>
+        <input class="field-input" id="discord" name="discord" type="text"
+          placeholder="ex: usuario#0000 ou @usuario" autocomplete="off" required>
+        <div class="error-msg" id="discord-err">Preencha seu usuário do Discord.</div>
+      </div>
+    </div>
+
+    <!-- Idade -->
+    <div class="form-card">
+      <div class="corner-deco"></div>
+      <div class="form-card-inner">
+        <label class="field-label" for="idade">
+          <span class="icon">◈</span>
+          Idade
+          <span class="required">*</span>
+        </label>
+        <input class="field-input" id="idade" name="idade" type="number"
+          placeholder="Sua idade" min="1" max="99" required style="max-width:160px">
+        <div class="error-msg" id="idade-err">Informe uma idade válida.</div>
+      </div>
+    </div>
+
+    <!-- Disponibilidade diária -->
+    <div class="form-card">
+      <div class="corner-deco"></div>
+      <div class="form-card-inner">
+        <div class="field-label">
+          <span class="icon">◉</span>
+          Você tem disponibilidade diária?
+          <span class="required">*</span>
+        </div>
+        <div class="radio-group">
+          <label class="radio-option">
+            <input type="radio" name="disponibilidade" value="Sim">
+            <div class="radio-label">✓ &nbsp;Sim</div>
+          </label>
+          <label class="radio-option">
+            <input type="radio" name="disponibilidade" value="Não">
+            <div class="radio-label">✕ &nbsp;Não</div>
+          </label>
+        </div>
+        <div class="error-msg" id="disp-err">Selecione uma opção.</div>
+      </div>
+    </div>
+
+    <!-- Horas por dia -->
+    <div class="form-card">
+      <div class="corner-deco"></div>
+      <div class="form-card-inner">
+        <label class="field-label" for="horas">
+          <span class="icon">◷</span>
+          Quantas horas por dia você pode dedicar ao servidor?
+          <span class="required">*</span>
+        </label>
+        <input class="field-input" id="horas" name="horas" type="text"
+          placeholder="ex: 3 horas, 1-2 horas por dia..." required>
+        <div class="error-msg" id="horas-err">Informe sua disponibilidade em horas.</div>
+      </div>
+    </div>
+
+    <!-- Área de atuação -->
+    <div class="form-card">
+      <div class="corner-deco"></div>
+      <div class="form-card-inner">
+        <div class="field-label">
+          <span class="icon">◆</span>
+          Qual área você atuaria no nosso servidor?
+          <span class="required">*</span>
+        </div>
+
+        <div class="section-divider"><span>selecione uma ou mais</span></div>
+
+        <div class="checkbox-grid" id="areasGrid">
+          <label class="checkbox-option">
+            <input type="checkbox" name="areas" value="Editor do Dz">
+            <div class="checkbox-label">
+              <div class="checkbox-box">✓</div>
+              Editor do Dz
+            </div>
+          </label>
+          <label class="checkbox-option">
+            <input type="checkbox" name="areas" value="CustomNPC Maker">
+            <div class="checkbox-label">
+              <div class="checkbox-box">✓</div>
+              CustomNPC Maker
+            </div>
+          </label>
+          <label class="checkbox-option">
+            <input type="checkbox" name="areas" value="Promoter / Divulgação">
+            <div class="checkbox-label">
+              <div class="checkbox-box">✓</div>
+              Promoter / Divulgação
+            </div>
+          </label>
+          <label class="checkbox-option">
+            <input type="checkbox" name="areas" value="Mod Dev">
+            <div class="checkbox-label">
+              <div class="checkbox-box">✓</div>
+              Mod Dev
+            </div>
+          </label>
+          <label class="checkbox-option">
+            <input type="checkbox" name="areas" value="Patrocinador">
+            <div class="checkbox-label">
+              <div class="checkbox-box">✓</div>
+              Patrocinador
+            </div>
+          </label>
+          <label class="checkbox-option">
+            <input type="checkbox" name="areas" value="Saga Maker">
+            <div class="checkbox-label">
+              <div class="checkbox-box">✓</div>
+              Saga Maker
+            </div>
+          </label>
+          <label class="checkbox-option">
+            <input type="checkbox" name="areas" value="Builder">
+            <div class="checkbox-label">
+              <div class="checkbox-box">✓</div>
+              Builder
+            </div>
+          </label>
+          <label class="checkbox-option">
+            <input type="checkbox" name="areas" value="Designer">
+            <div class="checkbox-label">
+              <div class="checkbox-box">✓</div>
+              Designer
+            </div>
+          </label>
+          <label class="checkbox-option">
+            <input type="checkbox" name="areas" value="JavaScripter">
+            <div class="checkbox-label">
+              <div class="checkbox-box">✓</div>
+              JavaScripter
+            </div>
+          </label>
+        </div>
+        <div class="error-msg" id="areas-err">Selecione pelo menos uma área.</div>
+      </div>
+    </div>
+
+    <!-- Experiência -->
+    <div class="form-card">
+      <div class="corner-deco"></div>
+      <div class="form-card-inner">
+        <label class="field-label" for="experiencia">
+          <span class="icon">◎</span>
+          A quanto tempo você trabalha com a função escolhida?
+          <span class="required">*</span>
+        </label>
+        <input class="field-input" id="experiencia" name="experiencia" type="text"
+          placeholder="ex: 2 anos, 6 meses, iniciante..." required>
+        <div class="error-msg" id="exp-err">Informe seu tempo de experiência.</div>
+      </div>
+    </div>
+
+    <!-- Submit -->
+    <div class="submit-area">
+      <button type="button" class="btn-reset" onclick="resetForm()">Limpar</button>
+      <button type="submit" class="btn-submit" id="submitBtn">
+        Enviar Candidatura
+      </button>
+    </div>
+
+  </form>
+</div>
+
+<!-- TOAST -->
+<div class="toast" id="toast">
+  <span class="toast-icon" id="toastIcon"></span>
+  <span id="toastMsg"></span>
+</div>
+
+<script>
+  const WEBHOOK = 'https://discord.com/api/webhooks/1481442147172483163/9PARudwIktsjcGXtkOVaLEdBN9h1URU7UAYH3EqGRyAZvUFP1AoVOJquRpLoUQmzn6Ic';
+
+  function showToast(msg, type = 'success') {
+    const t = document.getElementById('toast');
+    const icon = document.getElementById('toastIcon');
+    const m = document.getElementById('toastMsg');
+    t.className = 'toast ' + type;
+    icon.textContent = type === 'success' ? '✔' : '✖';
+    m.textContent = msg;
+    t.classList.add('show');
+    setTimeout(() => t.classList.remove('show'), 5000);
+  }
+
+  function resetForm() {
+    document.getElementById('staffForm').reset();
+    document.querySelectorAll('.error-msg').forEach(e => e.classList.remove('show'));
+    document.querySelectorAll('.field-input').forEach(e => e.classList.remove('error'));
+  }
+
+  function validate() {
+    let ok = true;
+
+    const fields = [
+      { id: 'discord', errId: 'discord-err', check: v => v.trim().length > 1 },
+      { id: 'idade',   errId: 'idade-err',   check: v => v > 0 && v < 120 },
+      { id: 'horas',   errId: 'horas-err',   check: v => v.trim().length > 0 },
+      { id: 'experiencia', errId: 'exp-err', check: v => v.trim().length > 0 },
+    ];
+
+    fields.forEach(f => {
+      const el = document.getElementById(f.id);
+      const err = document.getElementById(f.errId);
+      if (!f.check(el.value)) {
+        el.classList.add('error');
+        err.classList.add('show');
+        ok = false;
+      } else {
+        el.classList.remove('error');
+        err.classList.remove('show');
+      }
+    });
+
+    // Radio
+    const disp = document.querySelector('input[name="disponibilidade"]:checked');
+    document.getElementById('disp-err').classList.toggle('show', !disp);
+    if (!disp) ok = false;
+
+    // Checkboxes
+    const areas = [...document.querySelectorAll('input[name="areas"]:checked')];
+    document.getElementById('areas-err').classList.toggle('show', areas.length === 0);
+    if (areas.length === 0) ok = false;
+
+    return ok;
+  }
+
+  document.getElementById('staffForm').addEventListener('submit', async (e) => {
+    e.preventDefault();
+    if (!validate()) {
+      showToast('Preencha todos os campos obrigatórios.', 'error');
+      return;
+    }
+
+    const btn = document.getElementById('submitBtn');
+    btn.disabled = true;
+    btn.innerHTML = '<span class="spinner"></span>Enviando...';
+
+    const discord = document.getElementById('discord').value.trim();
+    const idade = document.getElementById('idade').value;
+    const disp = document.querySelector('input[name="disponibilidade"]:checked').value;
+    const horas = document.getElementById('horas').value.trim();
+    const areas = [...document.querySelectorAll('input[name="areas"]:checked')].map(c => c.value);
+    const exp = document.getElementById('experiencia').value.trim();
+
+    const now = new Date();
+    const timestamp = now.toISOString();
+
+    const payload = {
+      username: 'BlackDz Staff Bot',
+      avatar_url: 'https://cdn.discordapp.com/embed/avatars/0.png',
+      embeds: [{
+        title: '📋 Nova Candidatura — Staff BlackDz',
+        color: 0xe8a020,
+        thumbnail: { url: 'https://cdn.discordapp.com/embed/avatars/3.png' },
+        fields: [
+          { name: '👤 Discord', value: '```' + discord + '```', inline: true },
+          { name: '🎂 Idade', value: '```' + idade + ' anos```', inline: true },
+          { name: '📅 Disponibilidade diária', value: disp === 'Sim' ? '✅ Sim' : '❌ Não', inline: true },
+          { name: '⏰ Horas por dia', value: '```' + horas + '```', inline: false },
+          { name: '🛠️ Áreas de Atuação', value: areas.map(a => `• ${a}`).join('\n'), inline: false },
+          { name: '📌 Experiência', value: '```' + exp + '```', inline: false },
+        ],
+        footer: {
+          text: 'BlackDz Community • Formulário de Staff',
+          icon_url: 'https://cdn.discordapp.com/embed/avatars/4.png'
+        },
+        timestamp: timestamp
+      }]
+    };
+
+    try {
+      const res = await fetch(WEBHOOK, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(payload)
+      });
+
+      if (res.ok || res.status === 204) {
+        showToast('Candidatura enviada com sucesso! Aguarde contato.', 'success');
+        resetForm();
+      } else {
+        throw new Error('Webhook retornou status ' + res.status);
+      }
+    } catch (err) {
+      console.error(err);
+      showToast('Erro ao enviar. Tente novamente.', 'error');
+    } finally {
+      btn.disabled = false;
+      btn.innerHTML = 'Enviar Candidatura';
+    }
+  });
+
+  // Live validation remove error on input
+  document.querySelectorAll('.field-input').forEach(el => {
+    el.addEventListener('input', () => {
+      el.classList.remove('error');
+      const err = document.getElementById(el.id + '-err');
+      if (err) err.classList.remove('show');
+    });
+  });
+</script>
+</body>
+</html>
